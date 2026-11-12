@@ -1,6 +1,10 @@
 # Natural Language Processing Project
 
-Student: Jade PLANTEROSE
+Student: 
+- Jade PLANTEROSE
+- Hugo RIVIERE
+- Thibault RABBE
+- Mael VAUDIN
 
 ## Subject: Book Recommendation Based on Literary Preferences
 
