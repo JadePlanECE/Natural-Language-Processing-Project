@@ -1,0 +1,28 @@
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Files
+*.csv
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Packaging
+build/
+downloads/
+lib/
+lib64/
+var/
+wheels/
+MANIFEST
+*.manifest
+*.spec
+
+# Cache
+__pycache__/
+.pytest_cache/
+.cache
