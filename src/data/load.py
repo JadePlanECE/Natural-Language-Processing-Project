@@ -1,3 +1,0 @@
-"""
-Load & validate reference data
-"""
