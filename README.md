@@ -26,7 +26,12 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-Then:
+Then install the dependencies:
 ```bash
 pip install -r ./requirements.txt
+```
+
+Finally, you can run the app:
+```bash
+streamlit run ./app/streamlit_app.py
 ```
