@@ -1,11 +1,20 @@
+import os
+import pandas as pd
 import streamlit as st
+
+CSV_FILE = "./data/raw/booksummaries.csv"
+
+if os.path.exists(CSV_FILE):
+    df = pd.read_csv(CSV_FILE)
+else:
+    raise FileNotFoundError(f"Dataset not found at {CSV_FILE}")
 
 st.set_page_config(page_title="Book RecSys", page_icon='📚', layout='wide')
 
 st.markdown("# Home")
 st.write(
-    """
-Plot summaries of 16,559 books extracted from the November 2, 2012 dump of English-language Wikipedia.  Tab-separated; columns:
+    f"""
+Plot summaries of {df.shape[0]:,} books extracted from the November 2, 2012 dump of English-language Wikipedia:
 
 1. Wikipedia article ID
 2. Freebase ID

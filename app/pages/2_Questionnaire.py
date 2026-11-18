@@ -3,6 +3,9 @@ import streamlit as st
 st.set_page_config(page_title="Book RecSys", page_icon='📚', layout='wide')
 st.title("Questionnaire")
 
+# we must do the MCQ form the datasets (like the genres, or the authors) as did for number of books in # Home
+# we also need to ask specific questions so user need to explains things (like desire narrative complexity)
+# review about a book ? (in another questionnaire)
 with st.form("questionnaire"):
     gender = st.selectbox("Genre", ["Female", "Male", "Other", "Do not want to answer"])
     age = st.slider("Your age", 5, 130, 30)
