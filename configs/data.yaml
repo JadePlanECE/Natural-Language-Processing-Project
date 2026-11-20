@@ -1,10 +1,12 @@
 paths:
-  raw_txt: data/raw/booksummaries.txt
-  raw_csv: data/raw/booksummaries.csv
-  processed: data/processed/booksummaries.csv
-  embedding: data/embeddings/booksummaries.npy
+  raw_folder: data/raw/
+  processed_folder: data/processed/
+  embeddings_folder: data/embeddings/
+  raw_txt_data: data/raw/booksummaries.txt
+  raw_csv_data: data/raw/booksummaries.csv
+  processed_data: data/processed/booksummaries.csv
+  embedding_data: data/embeddings/booksummaries.npy
 
 dataset:
-  # Do NOT change the order!
   columns: ["wikipedia_id", "freebase_id", "title", "author", "publication_date", "genres", "synopsis"]
   batch_size: 64

@@ -23,7 +23,11 @@ def load_config(path: str | Path) -> dict:
     with open(path, encoding="utf-8") as f:
         return yaml.safe_load(f)
 
-def verify_path(path: str | Path) -> None:
+def verify_folder_path(path: str | Path) -> None:
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+def verify_data_path(path: str | Path) -> str | Path:
     if not os.path.exists(path):
         sys.exit(f"File not found: {path}")
     else:
@@ -89,10 +93,10 @@ def preprocess_text(text: str, lemmatizer, stop_words) -> str:
 
 def create_combined(df: pd.DataFrame) -> pd.Series:
     return (
-        "Title: " + df[2].fillna("") + " | " +
-        "Author: " + df[3].fillna("Unknow Author") + " | " +
-        "Genres: " + df[5].fillna("Unknow Genre") + " | " +
-        "Synopsis: " + df[6].fillna("")
+        "Title: " + df["title"].fillna("") + " | " +
+        "Author: " + df["author"].fillna("Unknow Author") + " | " +
+        "Genres: " + df["genres"].fillna("Unknow Genre") + " | " +
+        "Synopsis: " + df["synopsis"].fillna("")
     )
 
 def create_embeddings(text: list, batch_size: int):
@@ -100,44 +104,62 @@ def create_embeddings(text: list, batch_size: int):
     return model.encode(
         text,
         batch_size=batch_size,
+        show_progress_bar=False,
         convert_to_numpy=True,
         normalize_embeddings=True
     )
 
 def run(config_path: str | Path = "configs/data.yaml", root: str | Path = ".") -> None:
+    print("[Data] Start data processing..")
+
     root = Path(root).resolve()
     config = load_config(root / config_path)
 
-    raw_txt = verify_path(root / config["paths"]["raw_txt"])
-    raw_csv = verify_path(root / config["paths"]["raw_csv"])
-    processed = verify_path(root / config["paths"]["processed"])
-    embedding = verify_path(root / config["paths"]["embedding"])
+    verify_folder_path(root / config["paths"]["raw_folder"])
+    verify_folder_path(root / config["paths"]["processed_folder"])
+    verify_folder_path(root / config["paths"]["embeddings_folder"])
+
+    raw_txt_path = verify_data_path(root / config["paths"]["raw_txt_data"])
+    raw_csv_path = root / config["paths"]["raw_csv_data"]
+    processed_path = root / config["paths"]["processed_data"]
+    embedding_path = root / config["paths"]["embedding_data"]
 
     columns = config["dataset"]["columns"]
     batch_size = config["dataset"]["batch_size"]
 
-    print("[Data] Convert 'data.txt' into 'data.csv'")
-    df = transform_format_data(raw_txt, columns)
-    save_csv(df, raw_csv)
-    raw = df.copy()
+    if not os.path.exists(raw_csv_path):
+        print("[Data] Convert 'data.txt' into 'data.csv'")
+        df = transform_format_data(raw_txt_path, columns)
+        save_csv(df, raw_csv_path)
+    else:
+        df = pd.read_csv(raw_csv_path)
 
-    print("[Data] Clean 'genres' column")
-    df[5] = df[5].apply(parse_genre) # 5 = genres
+    if not os.path.exists(processed_path):
+        print("[Data] Clean 'genres' column")
+        df = df.drop(columns=["freebase_id", "publication_date"])
+        df["genres"] = df["genres"].apply(parse_genre)
 
-    print("[Data] Preprocess 'synopsis' column")
-    download_require_nltk_resources()
-    lemmatizer = WordNetLemmatizer()
-    stop_words = set(stopwords.words('english'))
-    df[6] = df[6].apply(lambda x: preprocess_text(x, lemmatizer, stop_words))
+        print("[Data] Preprocess 'synopsis' column")
+        download_require_nltk_resources()
+        lemmatizer = WordNetLemmatizer()
+        stop_words = set(stopwords.words('english'))
+        df["synopsis"] = df["synopsis"].apply(lambda x: preprocess_text(x, lemmatizer, stop_words))
 
-    print("[Data] Finish cleaning")
-    df = df.dropna()
-    save_csv(df, processed)
+        print("[Data] Finish cleaning")
+        df = df.dropna()
+        save_csv(df, processed_path)
+    else:
+        df = pd.read_csv(processed_path)
 
-    print("[Data] Prepare Dataset for Embeddings")
-    df = df.merge(raw, on=columns[0], how="left", validate="many_to_one")
-    df["combined text"] = create_combined(df)
+    if not os.path.exists(embedding_path):
+        print("[Data] Prepare Dataset for Embeddings")
+        raw_path = verify_data_path(root / config["paths"]["raw_csv_data"])
+        raw = pd.read_csv(raw_path, usecols=["wikipedia_id", "synopsis"]).rename(columns={"synopsis": "synopsis_raw"})
+        df = df.merge(raw, on="wikipedia_id", how="left", validate="many_to_one")
+        df["combined text"] = create_combined(df)
 
-    print("[Data] Create embeddings")
-    book_embeddings = create_embeddings(df["combined text"].tolist(), batch_size)
-    np.save(embedding, book_embeddings.astype(np.float32))
+        print("[Data] Create embeddings")
+        book_embeddings = create_embeddings(df["combined text"].tolist(), batch_size)
+        np.save(embedding_path, book_embeddings.astype(np.float32))
+
+    print("[Data] Done")
