@@ -2,11 +2,26 @@ paths:
   raw_folder: data/raw/
   processed_folder: data/processed/
   embeddings_folder: data/embeddings/
+  benchmark_folder: data/benchmark/
+  responses_folder: data/responses/   # one JSON per questionnaire submission (not versioned)
   raw_txt_data: data/raw/booksummaries.txt
   raw_csv_data: data/raw/booksummaries.csv
   processed_data: data/processed/booksummaries.csv
-  embedding_data: data/embeddings/booksummaries.npy
+  # .npz = synopsis + genre vectors, wikipedia_id of each row, model & representation names
+  # (alignment with the CSV and with this config is checked at load time)
+  embedding_data: data/embeddings/booksummaries.npz
 
 dataset:
   columns: ["wikipedia_id", "freebase_id", "title", "author", "publication_date", "genres", "synopsis"]
   batch_size: 64
+
+embeddings:
+  # Chosen with the benchmark of notebook 02: best model on all three metrics
+  model: all-mpnet-base-v2
+  # Raw synopsis split into sentence chunks that fit the model window, chunk vectors averaged
+  # (best representation for retrieval for every model, and no truncation of long synopses)
+  representation: raw chunked (mean)
+  # Book vector = normalize((1 - genre_weight) * synopsis + genre_weight * genres), where "genres" is the
+  # vector of the text "Genres: <Freebase genres>". Plot summaries rarely name their themes ("dystopia",
+  # "spy novel"...): the genre vector adds them (fine-genre benchmark, notebook 02). 0 = synopsis only.
+  genre_weight: 0.5
