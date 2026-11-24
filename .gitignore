@@ -8,6 +8,11 @@ ENV/
 # Files
 *.csv
 *.npy
+# Small benchmark tables read by the About page (re-running notebook 02 takes ~25 min)
+!data/benchmark/*.csv
+
+# Questionnaire submissions (personal answers, generated locally)
+data/responses/
 
 # Streamlit
 .streamlit/secrets.toml
