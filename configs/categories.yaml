@@ -1,0 +1,75 @@
+# Mapping of the 221 Freebase genres into thematic macro-categories (reference "blocks").
+# - A genre can belong to several categories (e.g. "Alternate history" -> SF + Historical).
+# - "audience" is kept apart: it is a reading public, not a theme.
+# - "ignored" genres describe a FORM or are too generic to carry a theme.
+
+categories:
+  Science Fiction:
+    description: Stories driven by science, technology, space, the future or alternative societies.
+    genres: [Science Fiction, Hard science fiction, Soft science fiction, Military science fiction, Space opera,
+             Cyberpunk, Postcyberpunk, Biopunk, Steampunk, Time travel, Dystopia, Utopian and dystopian fiction,
+             Utopian fiction, Apocalyptic and post-apocalyptic fiction, Post-holocaust, Catastrophic literature,
+             Human extinction, Alternate history, Parallel novel, Transhumanism, Social science fiction,
+             Feminist science fiction, Comic science fiction, Planetary romance, Sword and planet, Scientific romance,
+             Edisonade, Invasion literature, Alien invasion, Future history, Space western, Dying Earth subgenre,
+             Science fantasy, Epic Science Fiction and Fantasy]
+  Fantasy:
+    description: Magic, mythical creatures, quests and imaginary worlds.
+    genres: [Fantasy, High fantasy, Urban fantasy, Dark fantasy, Sword and sorcery, Historical fantasy,
+             Contemporary fantasy, Comic fantasy, Fantasy of manners, Heroic fantasy, Fairytale fantasy,
+             Juvenile fantasy, Low fantasy, Bangsian fantasy, Fantastique, New Weird, Wuxia, Fairy tale, Fable,
+             Science fantasy, Epic Science Fiction and Fantasy, Magic realism, Superhero fiction]
+  Mystery & Crime:
+    description: Investigations, detectives, crimes and the search for the culprit.
+    genres: [Mystery, Detective fiction, Crime Fiction, Whodunit, Historical whodunnit, Locked room mystery,
+             Hardboiled, Cozy, Police procedural, True crime]
+  Thriller & Suspense:
+    description: Tension, danger, conspiracies, espionage and races against time.
+    genres: [Thriller, Suspense, Spy fiction, Techno-thriller, Conspiracy fiction, Conspiracy, Cabal]
+  Horror & Gothic:
+    description: Fear, the supernatural, monsters and dark atmospheres.
+    genres: [Horror, Gothic fiction, American Gothic Fiction, Vampire fiction, Ghost story, Zombie,
+             Zombies in popular culture, Supernatural, Dark fantasy, Bit Lit]
+  Romance:
+    description: Love stories and relationships at the heart of the plot.
+    genres: [Romance novel, Paranormal romance, Regency romance, Historical romance, Georgian romance,
+             Elizabethan romance, Medieval romance, Colonial United States romance, Chivalric romance,
+             Romantic comedy, Chick lit, Indian chick lit, Erotica, Pornography]
+  Historical:
+    description: Stories set in a real historical period, wars and past societies.
+    genres: [Historical novel, Historical fiction, War novel, Alternate history, Historical fantasy,
+             Historical whodunnit, Historical romance, Military history, Anti-war]
+  Adventure:
+    description: Journeys, explorations, survival and action in exotic settings.
+    genres: [Adventure novel, Adventure, Western, Western fiction, Sea story, Naval adventure, Lost World,
+             Subterranean fiction, Robinsonade, Picaresque novel, Foreign legion, Space western]
+  Humour & Satire:
+    description: Comedy, irony, parody and social satire.
+    genres: [Comedy, Satire, Comic novel, Humour, Black comedy, Parody, Absurdist fiction, Farce, Tragicomedy,
+             Comedy of manners, Comic science fiction, Comic fantasy, Pastiche, Social commentary, Polemic]
+  Literary Fiction:
+    description: Character-driven literature exploring identity, society, psychology and the human condition.
+    genres: [Literary fiction, Psychological novel, Bildungsroman, Coming of age, Autobiographical novel,
+             Biographical novel, Roman à clef, Künstlerroman, Epistolary novel, Existentialism, Postmodernism,
+             Modernism, Literary realism, Experimental literature, Ergodic literature, Social novel,
+             Industrial novel, Campus novel, Urban fiction, Gay novel, Gay Themed, LGBT literature,
+             Transgender and transsexual fiction, Magic realism, Drama, Play, Morality play, Poetry, Prose poetry,
+             Social criticism]
+  Non-fiction:
+    description: Real facts, lives, ideas and knowledge (biography, history, essays, science...).
+    genres: [Non-fiction, Autobiography, Biography, Memoir, Personal journal, History, Military history,
+             Philosophy, Political philosophy, Metaphysics, Science, Popular science, Mathematics,
+             Computer Science, Neuroscience, Psychology, Sociology, Anthropology, Social sciences, Economics,
+             Business, Marketing, Politics, Religion, Religious text, Spirituality, Inspirational, Self-help,
+             Travel, Travel literature, Nature, Music, Photography, Sports, Cookbook, Reference, Essay, Treatise,
+             Literary criticism, Creative nonfiction, Non-fiction novel, Popular culture, True crime]
+
+audience:
+  Youth:
+    description: Books written for children and teenagers.
+    genres: [Children's literature, Young adult literature, Picture book, Juvenile fantasy, Boys' school stories,
+             English public-school stories, School story, Fairy tale]
+
+ignored: [Fiction, Speculative fiction, Novel, Novella, Short story, Anthology, Serial, Prose, Graphic novel,
+          Comics, Comic book, Light novel, Gamebook, Role-playing game, Collage, Mashup, Fictional crossover,
+          First-person narrative, New York Times Best Seller list, Albino bias, Anti-nuclear]
