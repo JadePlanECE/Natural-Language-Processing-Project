@@ -1,18 +1,19 @@
 """
-Main entry point (or multi-page)
+Main entry point (multi-page Streamlit app)
+Run from the project root:  streamlit run app/streamlit_app.py
 """
 
-import sys
-from pathlib import Path
 import streamlit as st
+from cache import get_books
 
-root_dir = Path(__file__).resolve().parent.parent
-if str(root_dir) not in sys.path:
-    sys.path.insert(0, str(root_dir))
+st.set_page_config(page_title="Book RecSys", page_icon="📚", layout="wide")
 
-from src.main import main
-
-main()
+# Fail early with a clear message if the data pipeline has not been run
+try:
+    get_books()
+except (RuntimeError, SystemExit) as e:
+    st.error(f"Data not ready: {e}\n\nRun `python -m src.main` from the project root, then reload this page.")
+    st.stop()
 
 pg = st.navigation([
     st.Page("pages/1_Home.py"),
